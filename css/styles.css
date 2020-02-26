@@ -140,7 +140,7 @@ background-color: #00a8cc;
     pointer-events: auto;
   }
   .modal-window > div {
-    width: 600px;
+    width: 700px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -176,6 +176,11 @@ background-color: #00a8cc;
   a {
     color: inherit;
   }
+  a:hover{
+    color: rgb(41, 40, 40);
+
+  }
+
   
   .container {
     display: grid;
