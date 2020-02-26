@@ -9,8 +9,8 @@ const weaponsArray = [
     {name: 'Wind', power: 17, x: 0, y: 0, beenEquipped: false}
 ];
 const usersArray = [
-    {username: 'Aashir',name: 'user1', health: 100, x: 0, y: 0,pname: 'Default', power: 10, has_moved: false, color: 'legal1', isAttacking: true},
-    {username: 'Sohail',name: 'user2', health: 100, x: 0, y: 0,pname: 'Default', power: 10,has_moved: true, color: 'legal2', isAttacking: true},
+    {username: 'P1',name: 'user1', health: 100, x: 0, y: 0,pname: 'Default', power: 10, has_moved: false, color: 'legal1', isAttacking: true},
+    {username: 'P2',name: 'user2', health: 100, x: 0, y: 0,pname: 'Default', power: 10,has_moved: true, color: 'legal2', isAttacking: true},
 ];
 //holds 18 unique numbers --- 0-11 -> Obstacles --- 11-15 -> Weapons --- 15-17 -> 
 let unique_cordinates = [];
@@ -413,8 +413,8 @@ function getData(){
 
 //update active player, power and health
 function show_status(){
-    $('#textP2').empty().append(`Health: ${usersArray[1].health} <br>Power: ${usersArray[1].pname} --- Damage: ${usersArray[1].power} <br>Attack Mode: ${usersArray[1].isAttacking}`)
-    $('#textP1').empty().append(`Health: ${usersArray[0].health} <br>Power: ${usersArray[0].pname} --- Damage: ${usersArray[0].power} <br>Attack Mode: ${usersArray[0].isAttacking}`)
+    $('#textP2').empty().append(`Health: ${usersArray[1].health} <br>Power: ${usersArray[1].pname} <br>Damage: ${usersArray[1].power} <br>Attack Mode: ${usersArray[1].isAttacking}`)
+    $('#textP1').empty().append(`Health: ${usersArray[0].health} <br>Power: ${usersArray[0].pname} <br>Damage: ${usersArray[0].power} <br>Attack Mode: ${usersArray[0].isAttacking}`)
 
     if ((toggler%2) === 1){
         $('#nameP1').empty().append(`${usersArray[0].username} <i class="far fa-circle fa-1x inactive"></i> `)
