@@ -1,23 +1,27 @@
-grid_setup();
 //populate  grid
+grid_setup();
 
-//Space for Arrays.Objects and Global Variables
-const weaponsArray = [
+let weaponsArray = [
     {name: 'Meteor', power: 20, x: 0, y: 0, beenEquipped: false},
     {name: 'Moon', power: 15, x: 0, y: 0, beenEquipped: false},
     {name: 'Sun', power: 18, x: 0, y: 0, beenEquipped: false},
     {name: 'Wind', power: 17, x: 0, y: 0, beenEquipped: false}
 ];
-const usersArray = [
+let usersArray = [
     {username: 'P1',name: 'user1', health: 100, x: 0, y: 0,pname: 'Default', power: 10, has_moved: false, color: 'legal1', isAttacking: true},
     {username: 'P2',name: 'user2', health: 100, x: 0, y: 0,pname: 'Default', power: 10,has_moved: true, color: 'legal2', isAttacking: true},
 ];
+
+
 //holds 18 unique numbers --- 0-11 -> Obstacles --- 11-15 -> Weapons --- 15-17 -> 
 let unique_cordinates = [];
 let obstaclesArray = [];
+let legal_moves = [];
 let current_player = usersArray[0];
 let toggler = 0;
 let round = 0;
+// get 100 array for grind items
+let blocks;
 
 //Populate 10x10 Grid
 function grid_setup(){
@@ -30,8 +34,8 @@ function grid_setup(){
     }
     console.log("Grid Setup");
 }
-// get 100 array for grind items
-const blocks = $('.grid-item').toArray();
+blocks = $('.grid-item').toArray();
+
 
 function populate_obstacles(){
     
@@ -105,7 +109,6 @@ function check_users(){
 }
 
 //for current player's position check legal moves
-let legal_moves = [];
 function check_legal_moves(x,y){
     let number = x*10 + y;
     let temp_legal_moves = []
@@ -147,7 +150,7 @@ function move_to_legal(moveFrom,moveTo){
 
         current_player.x = Math.floor(moveTo/10);
         current_player.y = Math.floor(moveTo%10);
-        console.log(current_player.username, "has moved to", current_player.x,current_player.y);
+        console.log(current_player.username, "has moved to", current_player.x+""+current_player.y);
         blocks[moveTo].classList.add(current_player.name)
         show_legal_moves();
         update_weapons();
@@ -163,135 +166,6 @@ function move_to_legal(moveFrom,moveTo){
     }
     else{
         console.log("Invalid Move Try Again.")
-    }
-}
-
-function check_fight() {
-    let range = -1;
-    let other_player;
-    (toggler%2==0) ? other_player = usersArray[1] : other_player = usersArray[0];
-    let current_location = current_player.x*10 + current_player.y;
-    let temp_location = current_location;
-    let inactive_location = other_player.x*10 + other_player.y;
-
-    console.log("Checking Fight");
-    console.log("Active User:",current_player.username,current_player.x,current_player.y);
-    console.log("Inactive User:",other_player.username,other_player.x,other_player.y);
-
-    for(let i = 0; i<3; i++){
-        temp_location += range + i;
-        if(temp_location == inactive_location){
-            console.log("Enemy Spotted on Horizontal Axis")
-            console.log(current_player.username,"can initiate attack.");
-            return true
-        }
-        temp_location = current_location;
-
-        temp_location += range*10 + i*10;
-        if(temp_location == inactive_location){
-            console.log("Enemy Spotted on Vertical Axis")
-            console.log(current_player.username,"can initiate attack.");
-            return true;
-        }
-        temp_location = current_location;
-    }
-    return false;
-}
-
-function indicate_battle(){
-    if(toggler%2==0){
-        $('#textP21').empty()
-        $('#textP11').empty().append(` ${usersArray[0].username} choose Attack or Defend.`);
-        $('#p1btn').show();
-        $('#p2btn').hide();
-    }
-    else{
-        $('#textP11').empty()
-        $('#textP21').empty().append(` ${usersArray[1].username} choose Attack or Defend.`);
-        $('#p2btn').show();
-        $('#p1btn').hide();
-
-    }
-
-}
-
-function indicate_peace(){
-        $('#textP11').empty();
-        $('#textP21').empty();
-        $('#p1btn').hide();
-        $('#p2btn').hide();
-
-
-}
-
-function commence_round(){
-    if(usersArray[0].isAttacking && usersArray[1].isAttacking){
-        console.log(usersArray[0].username,"Attacking");
-        console.log(usersArray[1].username,"Attacking");
-        usersArray[0].health - usersArray[1].power <= 0 ? usersArray[0].health = 0 : usersArray[0].health -= usersArray[1].power;
-        usersArray[1].health - usersArray[0].power <= 0 ? usersArray[1].health = 0 : usersArray[1].health -= usersArray[0].power;
-    }
-    if(usersArray[0].isAttacking && !usersArray[1].isAttacking){
-        console.log(usersArray[0].username,"Attacking");
-        console.log(usersArray[1].username,"Defending");
-        usersArray[1].health - parseInt(usersArray[0].power/2) <= 0 ? usersArray[1].health = 0: usersArray[1].health -= parseInt(usersArray[0].power/2);
-
-    }
-    if(!usersArray[0].isAttacking && usersArray[1].isAttacking){
-        console.log(usersArray[0].username,"Defending");
-        console.log(usersArray[1].username,"Attacking");
-        usersArray[0].health - parseInt(usersArray[1].power/2) <= 0 ? usersArray[0].health = 0: usersArray[0].health -= parseInt(usersArray[1].power/2);
-    }
-    if(!usersArray[0].isAttacking && !usersArray[1].isAttacking){
-        console.log(usersArray[0].username,"Defending");
-        console.log(usersArray[1].username,"Defending");
-    }
-    show_status();
-    show_legal_moves();
-    check_victory();
-}
-
-function check_victory(){
-    if(usersArray[0].health <= 0){
-        console.log(usersArray[1].username, "WON!!");
-        console.log(usersArray[0].username, "LOST!")
-        $('#success').append(
-            `<div class="alert alert-success" role="alert">
-            ${usersArray[1].username} WON!!! New Game Starts in 5s
-            </div>`
-            );
-            setTimeout(function() { restart();}, 5000);
-    }
-    else if(usersArray[1].health <= 0){
-        console.log(usersArray[0].username, "WON!!");
-        console.log(usersArray[1].username, "LOST!")
-        $('#success').append(
-            `<div class="alert alert-success" role="alert">
-            ${usersArray[0].username} WON!!! New Game Starts in 5s
-            </div>`
-            );
-            setTimeout(function() { restart();}, 5000);
-    }
-}
-
-function toggle_player(){
-    if ((toggler%2) === 0){
-        usersArray[0].has_moved =true;
-        usersArray[1].has_moved =false;
-        remove_legal_moves();
-        current_player = usersArray[1];          
-        toggler+=1;
-        show_status();
-        check_legal_moves(current_player.x,current_player.y);
-    }
-    else if ((toggler%2) === 1){
-        usersArray[1].has_moved =true;
-        usersArray[0].has_moved =false;
-        remove_legal_moves();
-        current_player = usersArray[0];            
-        toggler+=1;
-        show_status();
-        check_legal_moves(current_player.x,current_player.y);
     }
 }
 
@@ -398,34 +272,6 @@ function remove_legal_moves(){
     }
 }
 
-function getData(){
-    let p1 = $('#p1Name').val();
-    let p2 = $('#p2Name').val();
-
-    console.log(p1,p2)
-
-    if(p1.length)
-        usersArray[0].username = p1;
-    if(p2.length)
-        usersArray[1].username = p2;
-    show_status();
-}
-
-//update active player, power and health
-function show_status(){
-    $('#textP2').empty().append(`Health: ${usersArray[1].health} <br>Power: ${usersArray[1].pname} <br>Damage: ${usersArray[1].power} <br>Attack Mode: ${usersArray[1].isAttacking}`)
-    $('#textP1').empty().append(`Health: ${usersArray[0].health} <br>Power: ${usersArray[0].pname} <br>Damage: ${usersArray[0].power} <br>Attack Mode: ${usersArray[0].isAttacking}`)
-
-    if ((toggler%2) === 1){
-        $('#nameP1').empty().append(`${usersArray[0].username} <i class="far fa-circle fa-1x inactive"></i> `)
-        $('#nameP2').empty().append(`${usersArray[1].username} <i class="fas fa-circle fa-1x active"></i> `)
-    }
-    if ((toggler%2) === 0){
-        $('#nameP1').empty().append(`${usersArray[0].username} <i class="fas fa-circle fa-1x active"></i> `)
-        $('#nameP2').empty().append(`${usersArray[1].username} <i class="far fa-circle fa-1x inactive"></i> `)
-    }
-
-}
 
 //see if the user is on the box with weapon
 function update_weapons(){
@@ -485,6 +331,172 @@ function pickNdrop( old_power, new_power){
     }
 }
 
+//see if two players are in adjacent blocks 
+function check_fight() {
+    let range = -1;
+    let other_player;
+    (toggler%2==0) ? other_player = usersArray[1] : other_player = usersArray[0];
+    let current_location = current_player.x*10 + current_player.y;
+    let temp_location = current_location;
+    let inactive_location = other_player.x*10 + other_player.y;
+
+    console.log("Checking Fight");
+    console.log("Active User:",current_player.username,current_player.x+""+current_player.y);
+    console.log("Inactive User:",other_player.username,other_player.x+""+other_player.y);
+
+    for(let i = 0; i<3; i++){
+        temp_location += range + i;
+        if(temp_location == inactive_location){
+            console.log("Enemy Spotted on Horizontal Axis")
+            console.log(current_player.username,"can initiate attack.");
+            return true
+        }
+        temp_location = current_location;
+
+        temp_location += range*10 + i*10;
+        if(temp_location == inactive_location){
+            console.log("Enemy Spotted on Vertical Axis")
+            console.log(current_player.username,"can initiate attack.");
+            return true;
+        }
+        temp_location = current_location;
+    }
+    return false;
+}
+
+//show attack/defend buttons for respective players
+function indicate_battle(){
+    if(toggler%2==0){
+        $('#textP21').empty()
+        $('#textP11').empty().append(` ${usersArray[0].username} choose Attack or Defend.`);
+        $('#p1btn').show();
+        $('#p2btn').hide();
+    }
+    else{
+        $('#textP11').empty()
+        $('#textP21').empty().append(` ${usersArray[1].username} choose Attack or Defend.`);
+        $('#p2btn').show();
+        $('#p1btn').hide();
+
+    }
+
+}
+
+//remove attack/defend buttons for respective players
+function indicate_peace(){
+        $('#textP11').empty();
+        $('#textP21').empty();
+        $('#p1btn').hide();
+        $('#p2btn').hide();
+
+
+}
+
+//check defend/attack status and deduct health points from each player 
+function commence_round(){
+    if(usersArray[0].isAttacking && usersArray[1].isAttacking){
+        console.log(usersArray[0].username,"Attacking");
+        console.log(usersArray[1].username,"Attacking");
+        usersArray[0].health - usersArray[1].power <= 0 ? usersArray[0].health = 0 : usersArray[0].health -= usersArray[1].power;
+        usersArray[1].health - usersArray[0].power <= 0 ? usersArray[1].health = 0 : usersArray[1].health -= usersArray[0].power;
+    }
+    if(usersArray[0].isAttacking && !usersArray[1].isAttacking){
+        console.log(usersArray[0].username,"Attacking");
+        console.log(usersArray[1].username,"Defending");
+        usersArray[1].health - parseInt(usersArray[0].power/2) <= 0 ? usersArray[1].health = 0: usersArray[1].health -= parseInt(usersArray[0].power/2);
+
+    }
+    if(!usersArray[0].isAttacking && usersArray[1].isAttacking){
+        console.log(usersArray[0].username,"Defending");
+        console.log(usersArray[1].username,"Attacking");
+        usersArray[0].health - parseInt(usersArray[1].power/2) <= 0 ? usersArray[0].health = 0: usersArray[0].health -= parseInt(usersArray[1].power/2);
+    }
+    if(!usersArray[0].isAttacking && !usersArray[1].isAttacking){
+        console.log(usersArray[0].username,"Defending");
+        console.log(usersArray[1].username,"Defending");
+    }
+    show_status();
+    show_legal_moves();
+    check_victory();
+}
+
+//checkif any player has his health zero
+function check_victory(){
+    if(usersArray[0].health <= 0){
+        console.log(usersArray[1].username, "WON!!");
+        console.log(usersArray[0].username, "LOST!")
+        $('#success').append(
+            `<div class="alert alert-success" role="alert">
+            ${usersArray[1].username} WON!!! New Game Starts in 5s
+            </div>`
+            );
+            setTimeout(function() { restart();}, 5000);
+    }
+    else if(usersArray[1].health <= 0){
+        console.log(usersArray[0].username, "WON!!");
+        console.log(usersArray[1].username, "LOST!")
+        $('#success').append(
+            `<div class="alert alert-success" role="alert">
+            ${usersArray[0].username} WON!!! New Game Starts in 5s
+            </div>`
+            );
+            setTimeout(function() { restart();}, 5000);
+    }
+}
+
+//toggle user turn
+function toggle_player(){
+    if ((toggler%2) === 0){
+        usersArray[0].has_moved =true;
+        usersArray[1].has_moved =false;
+        remove_legal_moves();
+        current_player = usersArray[1];          
+        toggler+=1;
+        show_status();
+        check_legal_moves(current_player.x,current_player.y);
+    }
+    else if ((toggler%2) === 1){
+        usersArray[1].has_moved =true;
+        usersArray[0].has_moved =false;
+        remove_legal_moves();
+        current_player = usersArray[0];            
+        toggler+=1;
+        show_status();
+        check_legal_moves(current_player.x,current_player.y);
+    }
+}
+
+//if user wishes to change player name
+function getData(){
+    let p1 = $('#p1Name').val();
+    let p2 = $('#p2Name').val();
+
+    console.log(p1,p2)
+
+    if(p1.length)
+        usersArray[0].username = p1;
+    if(p2.length)
+        usersArray[1].username = p2;
+    show_status();
+}
+
+//update active player, power and health
+function show_status(){
+    $('#textP2').empty().append(`Health: ${usersArray[1].health} <br>Power: ${usersArray[1].pname} <br>Damage: ${usersArray[1].power} <br>Attack Mode: ${usersArray[1].isAttacking}`)
+    $('#textP1').empty().append(`Health: ${usersArray[0].health} <br>Power: ${usersArray[0].pname} <br>Damage: ${usersArray[0].power} <br>Attack Mode: ${usersArray[0].isAttacking}`)
+
+    if ((toggler%2) === 1){
+        $('#nameP1').empty().append(`${usersArray[0].username} <i class="far fa-circle fa-1x inactive"></i> `)
+        $('#nameP2').empty().append(`${usersArray[1].username} <i class="fas fa-circle fa-1x active"></i> `)
+    }
+    if ((toggler%2) === 0){
+        $('#nameP1').empty().append(`${usersArray[0].username} <i class="fas fa-circle fa-1x active"></i> `)
+        $('#nameP2').empty().append(`${usersArray[1].username} <i class="far fa-circle fa-1x inactive"></i> `)
+    }
+
+}
+
+
 function restart(){
     location.reload();
 }
@@ -493,7 +505,7 @@ $('.grid-item').click(function (){
     console.clear();
     clickedX = parseInt($(this)[0].attributes[1].value);
     clickedY = parseInt($(this)[0].attributes[2].value);
-    console.log("Square clicked: " + clickedX,clickedY);
+    console.log("Square clicked: " + clickedX + clickedY);
     let moveTo = clickedX*10+clickedY;
     let moveFrom = current_player.x*10+current_player.y;
     move_to_legal(moveFrom,moveTo)
@@ -569,8 +581,3 @@ populate_items(weaponsArray,12);
 populate_items(usersArray,16)
 show_status();
 indicate_peace();
-
-
-
-
-
