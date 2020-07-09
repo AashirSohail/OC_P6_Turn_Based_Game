@@ -13,7 +13,7 @@ let usersArray = [
 ];
 
 
-//holds 18 unique numbers --- 0-11 -> Obstacles --- 11-15 -> Weapons --- 15-17 -> 
+//holds 18 unique numbers --- 0-11 -> Obstacles --- 11-15 -> Weapons --- 15-17 -> users
 let unique_cordinates = [];
 let obstaclesArray = [];
 let legal_moves = [];
