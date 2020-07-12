@@ -507,10 +507,6 @@ class Game {
         location.reload();
     }
 
-    blockClocked() {
-
-    }
-
 }
 
 const game = new Game();
