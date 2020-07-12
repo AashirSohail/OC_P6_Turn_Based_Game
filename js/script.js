@@ -1,4 +1,3 @@
-
 class Weapon {
     constructor(name, power) {
         this.name = name;
@@ -39,17 +38,17 @@ const usersArray = [
 
 class Game {
     constructor() {
-        //holds 18 unique numbers --- 0-11 -> Obstacles --- 11-15 -> Weapons --- 15-17 -> users
-        this.unique_cordinates = [];
-        this.obstaclesArray = [];
-        this.legal_moves = [];
-        this.current_player = usersArray[0];
-        this.toggler = 0;
-        this.round = 0;
-        // get 100 array for grind items
-        this.blocks;
-    }
-    //Populate 10x10 Grid
+            //holds 18 unique numbers --- 0-11 -> Obstacles --- 11-15 -> Weapons --- 15-17 -> users
+            this.unique_cordinates = [];
+            this.obstaclesArray = [];
+            this.legal_moves = [];
+            this.current_player = usersArray[0];
+            this.toggler = 0;
+            this.round = 0;
+            // get 100 array for grind items
+            this.blocks;
+        }
+        //Populate 10x10 Grid
     grid_setup() {
         for (let x = 0; x < 10; x++) {
             for (let y = 0; y < 10; y++) {
@@ -61,9 +60,9 @@ class Game {
         console.log("Grid Setup");
     }
     getBlocks() {
-        this.blocks = $('.grid-item').toArray();
-    }
-    //returns unique coordinates
+            this.blocks = $('.grid-item').toArray();
+        }
+        //returns unique coordinates
     unique_array(count) {
         while (this.unique_cordinates.length < count) {
             var r = Math.floor(Math.random() * 100);
@@ -158,8 +157,7 @@ class Game {
             $('#textP11').empty().append(` ${usersArray[0].username} choose Attack or Defend.`);
             $('#p1btn').show();
             $('#p2btn').hide();
-        }
-        else {
+        } else {
             $('#textP11').empty()
             $('#textP21').empty().append(` ${usersArray[1].username} choose Attack or Defend.`);
             $('#p2btn').show();
@@ -187,8 +185,7 @@ class Game {
             this.toggler += 1;
             this.show_status();
             this.check_legal_moves(this.current_player.x, this.current_player.y);
-        }
-        else if ((this.toggler % 2) === 1) {
+        } else if ((this.toggler % 2) === 1) {
             usersArray[1].has_moved = true;
             usersArray[0].has_moved = false;
             this.remove_legal_moves();
@@ -225,16 +222,16 @@ class Game {
         this.obstaclesArray = this.unique_cordinates.slice(0, 12);
         console.log(temp_legal_moves)
 
-        for(let i = 0; i < temp_legal_moves.length; i++){
-            if(this.obstaclesArray.indexOf(temp_legal_moves[i]) == -1){
-                this.legal_moves.push(temp_legal_moves[i]) 
-           }
+        for (let i = 0; i < temp_legal_moves.length; i++) {
+            if (this.obstaclesArray.indexOf(temp_legal_moves[i]) == -1) {
+                this.legal_moves.push(temp_legal_moves[i])
+            }
         }
         console.log(this.legal_moves)
-        /*this.legal_moves = temp_legal_moves.filter(function (val) {
-            return this.obstaclesArray.indexOf(val) == -1;
-        });*/
-        //console.log("False Legal Moves:" + legal_moves);
+            /*this.legal_moves = temp_legal_moves.filter(function (val) {
+                return this.obstaclesArray.indexOf(val) == -1;
+            });*/
+            //console.log("False Legal Moves:" + legal_moves);
 
         this.remove_false_legal(number);
         this.show_legal_moves();
@@ -248,18 +245,17 @@ class Game {
         if (this.obstaclesArray.includes(number + xIterate)) {
             if (this.legal_moves.indexOf(number + 2) > -1) {
                 this.legal_moves.splice(this.legal_moves.indexOf(number + 2), 1)
-                //console.log("Removing-R: ",number+2)
+                    //console.log("Removing-R: ",number+2)
 
             }
             if (this.legal_moves.indexOf(number + 3) > -1) {
                 this.legal_moves.splice(this.legal_moves.indexOf(number + 3), 1)
-                //console.log("Removing-R: ",number+3 )
+                    //console.log("Removing-R: ",number+3 )
             }
-        }
-        else if (this.obstaclesArray.includes(number + xIterate + xIterate)) {
+        } else if (this.obstaclesArray.includes(number + xIterate + xIterate)) {
             if (this.legal_moves.indexOf(number + 3) > -1) {
                 this.legal_moves.splice(this.legal_moves.indexOf(number + 3), 1)
-                //console.log("Removing-R: ",number+3 )
+                    //console.log("Removing-R: ",number+3 )
             }
         }
         //console.log("False Legal Removed from right: ",legal_moves)
@@ -268,19 +264,18 @@ class Game {
         if (this.obstaclesArray.includes(number - xIterate)) {
             if (this.legal_moves.indexOf(number - 2) > -1) {
                 this.legal_moves.splice(this.legal_moves.indexOf(number - 2), 1)
-                //console.log("Removing-L: ",number-3 )
+                    //console.log("Removing-L: ",number-3 )
 
             }
             if (this.legal_moves.indexOf(number - 3) > -1) {
                 this.legal_moves.splice(this.legal_moves.indexOf(number - 3), 1)
-                //console.log("Removing-L: ",number-3 )
+                    //console.log("Removing-L: ",number-3 )
 
             }
-        }
-        else if (this.obstaclesArray.includes(number - xIterate - xIterate)) {
+        } else if (this.obstaclesArray.includes(number - xIterate - xIterate)) {
             if (this.legal_moves.indexOf(number - 3) > -1) {
                 this.legal_moves.splice(this.legal_moves.indexOf(number - 3), 1)
-                //console.log("Removing-L: ",number-3 )
+                    //console.log("Removing-L: ",number-3 )
 
             }
         }
@@ -290,18 +285,17 @@ class Game {
         if (this.obstaclesArray.includes(number + yIterate)) {
             if (this.legal_moves.indexOf(number + 20) > -1) {
                 this.legal_moves.splice(this.legal_moves.indexOf(number + 20), 1)
-                //console.log("Removing-B: ",number+20)
+                    //console.log("Removing-B: ",number+20)
             }
             if (this.legal_moves.indexOf(number + 30) > -1) {
                 this.legal_moves.splice(this.legal_moves.indexOf(number + 30), 1)
-                //console.log("Removing-B: ",number+30 )
+                    //console.log("Removing-B: ",number+30 )
             }
 
-        }
-        else if (this.obstaclesArray.includes(number + yIterate + yIterate)) {
+        } else if (this.obstaclesArray.includes(number + yIterate + yIterate)) {
             if (this.legal_moves.indexOf(number + 30) > -1) {
                 this.legal_moves.splice(this.legal_moves.indexOf(number + 30), 1)
-                //console.log("Removing-B: ",number+30 )
+                    //console.log("Removing-B: ",number+30 )
             }
         }
         //console.log("False Legal Removed from bottom: ",legal_moves)
@@ -310,18 +304,17 @@ class Game {
         if (this.obstaclesArray.includes(number - yIterate)) {
             if (this.legal_moves.indexOf(number - 20) > -1) {
                 this.legal_moves.splice(this.legal_moves.indexOf(number - 20), 1)
-                //console.log("Removing-T: ",number-20)
+                    //console.log("Removing-T: ",number-20)
             }
             if (this.legal_moves.indexOf(number - 30) > -1) {
                 this.legal_moves.splice(this.legal_moves.indexOf(number - 30), 1)
-                //console.log("Removing-T: ",number-30 )
+                    //console.log("Removing-T: ",number-30 )
             }
 
-        }
-        else if (this.obstaclesArray.includes(number - yIterate - yIterate)) {
+        } else if (this.obstaclesArray.includes(number - yIterate - yIterate)) {
             if (this.legal_moves.indexOf(number - 30) > -1) {
                 this.legal_moves.splice(this.legal_moves.indexOf(number - 30), 1)
-                //console.log("Removing-T: ",number-30 )
+                    //console.log("Removing-T: ",number-30 )
             }
         }
         //console.log("False Legal Removed from top: ",legal_moves)
@@ -358,14 +351,12 @@ class Game {
 
             if (this.check_fight()) {
                 this.indicate_battle();
-            }
-            else {
+            } else {
                 this.toggle_player();
                 this.indicate_peace();
             }
 
-        }
-        else {
+        } else {
             console.log("Invalid Move Try Again.")
         }
     }
@@ -382,22 +373,19 @@ class Game {
             this.current_player.pname = weaponsArray[0].name;
             weaponsArray[0].beenEquipped = true;
             this.pickNdrop(old_power, weaponsArray[0].name);
-        }
-        else if (this.current_player.x == weaponsArray[1].x && this.current_player.y == weaponsArray[1].y && !weaponsArray[1].beenEquipped) {
+        } else if (this.current_player.x == weaponsArray[1].x && this.current_player.y == weaponsArray[1].y && !weaponsArray[1].beenEquipped) {
             let old_power = this.current_player.pname;
             this.current_player.power = weaponsArray[1].power;
             this.current_player.pname = weaponsArray[1].name;
             weaponsArray[1].beenEquipped = true;
             this.pickNdrop(old_power, weaponsArray[1].name);
-        }
-        else if (this.current_player.x == weaponsArray[2].x && this.current_player.y == weaponsArray[2].y && !weaponsArray[2].beenEquipped) {
+        } else if (this.current_player.x == weaponsArray[2].x && this.current_player.y == weaponsArray[2].y && !weaponsArray[2].beenEquipped) {
             let old_power = this.current_player.pname;
             this.current_player.power = weaponsArray[2].power;
             this.current_player.pname = weaponsArray[2].name;
             weaponsArray[2].beenEquipped = true;
             this.pickNdrop(old_power, weaponsArray[2].name);
-        }
-        else if (this.current_player.x == weaponsArray[3].x && this.current_player.y == weaponsArray[3].y && !weaponsArray[3].beenEquipped) {
+        } else if (this.current_player.x == weaponsArray[3].x && this.current_player.y == weaponsArray[3].y && !weaponsArray[3].beenEquipped) {
             let old_power = this.current_player.pname;
             this.current_player.power = weaponsArray[3].power;
             this.current_player.pname = weaponsArray[3].name;
@@ -414,8 +402,7 @@ class Game {
         if (old_power == 'Default') {
             this.blocks[this.current_player.x * 10 + this.current_player.y].classList.remove(new_power);
             console.log(new_power, "taken from", this.current_player.x * 10 + this.current_player.y);
-        }
-        else {
+        } else {
             let old_index = weaponsArray.findIndex(x => x.name == old_power);
             console.log("index of old weapon", old_index)
             weaponsArray[old_index].beenEquipped = false;
@@ -435,7 +422,7 @@ class Game {
     check_fight() {
         let range = -1;
         let other_player;
-        (this.toggler % 2 == 0) ? other_player = usersArray[1] : other_player = usersArray[0];
+        (this.toggler % 2 == 0) ? other_player = usersArray[1]: other_player = usersArray[0];
         let current_location = this.current_player.x * 10 + this.current_player.y;
         let temp_location = current_location;
         let inactive_location = other_player.x * 10 + other_player.y;
@@ -498,21 +485,20 @@ class Game {
             console.log(usersArray[1].username, "WON!!");
             console.log(usersArray[0].username, "LOST!")
             $('#success').append(
-                `<div class="alert alert-success" role="alert">
+                `<div id="alert" class="alert alert-success" role="alert">
             ${usersArray[1].username} WON!!! New Game Starts in 5s
             </div>`
             );
-            setTimeout(function () { Game.restart(); }, 5000);
-        }
-        else if (usersArray[1].health <= 0) {
+            setTimeout(function() { Game.restart(); }, 5000);
+        } else if (usersArray[1].health <= 0) {
             console.log(usersArray[0].username, "WON!!");
             console.log(usersArray[1].username, "LOST!")
             $('#success').append(
-                `<div class="alert alert-success" role="alert">
+                `<div id="alert"  class="text-center mx-auto align-content-justify alert alert-success" role="alert">
             ${usersArray[0].username} WON!!! New Game Starts in 5s
             </div>`
             );
-            setTimeout(function () { Game.restart(); }, 5000);
+            setTimeout(function() { Game.restart(); }, 5000);
         }
     }
 
@@ -521,8 +507,8 @@ class Game {
         location.reload();
     }
 
-    blockClocked(){
-        
+    blockClocked() {
+
     }
 
 }
@@ -539,7 +525,7 @@ game.populate_items(usersArray, 16)
 game.show_status();
 game.indicate_peace();
 
-$('.grid-item').click(function () {
+$('.grid-item').click(function() {
     clickedX = parseInt($(this)[0].attributes[1].value);
     clickedY = parseInt($(this)[0].attributes[2].value);
     console.log("Square clicked: " + clickedX + clickedY);
@@ -549,18 +535,18 @@ $('.grid-item').click(function () {
 
 })
 
-$('#start').one("click", function () {
+$('#start').one("click", function() {
     game.check_legal_moves(usersArray[0].x, usersArray[0].y);
     $('#stop').show();
     $('#start').hide();
 
 })
-$('#stop').one("click", function () {
-    game.restart();
+$('#stop').one("click", function() {
+    Game.restart();
     $('#stop').hide();
 })
 
-$('#p1f').click(function () {
+$('#p1f').click(function() {
     usersArray[0].isAttacking = true;
     console.log(usersArray[0].username + " is attacking ? ", usersArray[0].isAttacking);
     game.toggle_player();
@@ -571,7 +557,7 @@ $('#p1f').click(function () {
     game.round % 2 == 0 ? game.commence_round() : console.log("");
 })
 
-$('#p1d').click(function () {
+$('#p1d').click(function() {
     usersArray[0].isAttacking = false;
     console.log(usersArray[0].username + " is attacking ? ", usersArray[0].isAttacking);
     game.toggle_player();
@@ -583,7 +569,7 @@ $('#p1d').click(function () {
 
 })
 
-$('#p2f').click(function () {
+$('#p2f').click(function() {
     usersArray[1].isAttacking = true;
     console.log(usersArray[1].username + " is attacking ? ", usersArray[1].isAttacking);
     game.toggle_player();
@@ -595,7 +581,7 @@ $('#p2f').click(function () {
 
 })
 
-$('#p2d').click(function () {
+$('#p2d').click(function() {
     usersArray[1].isAttacking = false;
     console.log(usersArray[1].username + " is attacking ? ", usersArray[1].isAttacking);
     game.toggle_player();
@@ -607,21 +593,20 @@ $('#p2d').click(function () {
 
 })
 
-    //if user wishes to change player name
-    function getData() {
-        let p1 = $('#p1Name').val();
-        let p2 = $('#p2Name').val();
+//if user wishes to change player name
+function getData() {
+    let p1 = $('#p1Name').val();
+    let p2 = $('#p2Name').val();
 
-        console.log(p1, p2)
+    console.log(p1, p2)
 
-        if (p1.length)
-            usersArray[0].username = p1;
-        if (p2.length)
-            usersArray[1].username = p2;
-        game.show_status();
-    }
+    if (p1.length)
+        usersArray[0].username = p1;
+    if (p2.length)
+        usersArray[1].username = p2;
+    game.show_status();
+}
 
-$(document).ready(function () {
+$(document).ready(function() {
     $('#stop').hide();
 })
-
