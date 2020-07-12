@@ -29,17 +29,17 @@ h3 {
 }
 
 .legal1 {
-    background-color: #ed6663;
+    background-color: #FDA098;
 }
 
 .legal2 {
-    background-color: #00a8cc;
+    background-color: #5bced8;
 }
 
 .Wind {
     padding-top: 4px;
     ;
-    background-color: #05dfd7;
+    background-color: #05dfbb;
     background-image: url(/imgs/wind.svg);
     background-repeat: no-repeat;
     background-position: center;
@@ -76,7 +76,7 @@ h3 {
     background-repeat: no-repeat;
     background-position: center;
     background-size: 2em 3em;
-    background-color: #ed6663;
+    background-color: #e2173c;
 }
 
 .user2 {
@@ -84,7 +84,7 @@ h3 {
     background-repeat: no-repeat;
     background-position: center;
     background-size: 2em 3em;
-    background-color: #00a8cc;
+    background-color: #00eeff;
 }
 
 .active {
