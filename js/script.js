@@ -35,6 +35,8 @@ const usersArray = [
     new User('P2', 'user2', true, 'legal2')
 ];
 
+const P1 = usersArray[0];
+const P2 = usersArray[1];
 
 class Game {
     constructor() {
@@ -42,7 +44,7 @@ class Game {
             this.unique_cordinates = [];
             this.obstaclesArray = [];
             this.legal_moves = [];
-            this.current_player = usersArray[0];
+            this.current_player = P1;
             this.toggler = 0;
             this.round = 0;
             // get 100 array for grind items
@@ -136,16 +138,16 @@ class Game {
 
     //update active player, power and health
     show_status() {
-        $('#textP2').empty().append(`Health: ${usersArray[1].health} <br>Power: ${usersArray[1].pname} <br>Damage: ${usersArray[1].power} <br>Attack Mode: ${usersArray[1].isAttacking}`)
-        $('#textP1').empty().append(`Health: ${usersArray[0].health} <br>Power: ${usersArray[0].pname} <br>Damage: ${usersArray[0].power} <br>Attack Mode: ${usersArray[0].isAttacking}`)
+        $('#textP2').empty().append(`Health: ${P2.health} <br>Power: ${P2.pname} <br>Damage: ${P2.power} <br>Attack Mode: ${P2.isAttacking}`)
+        $('#textP1').empty().append(`Health: ${P1.health} <br>Power: ${P1.pname} <br>Damage: ${P1.power} <br>Attack Mode: ${P1.isAttacking}`)
 
         if ((this.toggler % 2) === 1) {
-            $('#nameP1').empty().append(`${usersArray[0].username} <i class="far fa-circle fa-1x inactive"></i> `)
-            $('#nameP2').empty().append(`${usersArray[1].username} <i class="fas fa-circle fa-1x active"></i> `)
+            $('#nameP1').empty().append(`${P1.username} <i class="far fa-circle fa-1x inactive"></i> `)
+            $('#nameP2').empty().append(`${P2.username} <i class="fas fa-circle fa-1x active"></i> `)
         }
         if ((this.toggler % 2) === 0) {
-            $('#nameP1').empty().append(`${usersArray[0].username} <i class="fas fa-circle fa-1x active"></i> `)
-            $('#nameP2').empty().append(`${usersArray[1].username} <i class="far fa-circle fa-1x inactive"></i> `)
+            $('#nameP1').empty().append(`${P1.username} <i class="fas fa-circle fa-1x active"></i> `)
+            $('#nameP2').empty().append(`${P2.username} <i class="far fa-circle fa-1x inactive"></i> `)
         }
 
     }
@@ -154,12 +156,12 @@ class Game {
     indicate_battle() {
         if (this.toggler % 2 == 0) {
             $('#textP21').empty()
-            $('#textP11').empty().append(` ${usersArray[0].username} choose Attack or Defend.`);
+            $('#textP11').empty().append(` ${P1.username} choose Attack or Defend.`);
             $('#p1btn').show();
             $('#p2btn').hide();
         } else {
             $('#textP11').empty()
-            $('#textP21').empty().append(` ${usersArray[1].username} choose Attack or Defend.`);
+            $('#textP21').empty().append(` ${P2.username} choose Attack or Defend.`);
             $('#p2btn').show();
             $('#p1btn').hide();
 
@@ -178,18 +180,18 @@ class Game {
     //toggle user turn
     toggle_player() {
         if ((this.toggler % 2) === 0) {
-            usersArray[0].has_moved = true;
-            usersArray[1].has_moved = false;
+            P1.has_moved = true;
+            P2.has_moved = false;
             this.remove_legal_moves();
-            this.current_player = usersArray[1];
+            this.current_player = P2;
             this.toggler += 1;
             this.show_status();
             this.check_legal_moves(this.current_player.x, this.current_player.y);
         } else if ((this.toggler % 2) === 1) {
-            usersArray[1].has_moved = true;
-            usersArray[0].has_moved = false;
+            P2.has_moved = true;
+            P1.has_moved = false;
             this.remove_legal_moves();
-            this.current_player = usersArray[0];
+            this.current_player = P1;
             this.toggler += 1;
             this.show_status();
             this.check_legal_moves(this.current_player.x, this.current_player.y);
@@ -366,31 +368,40 @@ class Game {
 
     //see if the user is on the box with weapon
     update_weapons() {
+        let meteor = weaponsArray[0];
+        let moon = weaponsArray[1];
+        let sun = weaponsArray[2];
+        let wind = weaponsArray[3];
 
-        if (this.current_player.x == weaponsArray[0].x && this.current_player.y == weaponsArray[0].y && !weaponsArray[0].beenEquipped) {
+
+        if (this.current_player.x == meteor.x && this.current_player.y == meteor.y && !meteor.beenEquipped) {
             let old_power = this.current_player.pname;
-            this.current_player.power = weaponsArray[0].power;
-            this.current_player.pname = weaponsArray[0].name;
-            weaponsArray[0].beenEquipped = true;
-            this.pickNdrop(old_power, weaponsArray[0].name);
-        } else if (this.current_player.x == weaponsArray[1].x && this.current_player.y == weaponsArray[1].y && !weaponsArray[1].beenEquipped) {
+            this.current_player.power = meteor.power;
+            this.current_player.pname = meteor.name;
+            meteor.beenEquipped = true;
+            weaponsArray[0] = meteor;
+            this.pickNdrop(old_power, meteor.name);
+        } else if (this.current_player.x == moon.x && this.current_player.y == moon.y && !moon.beenEquipped) {
             let old_power = this.current_player.pname;
-            this.current_player.power = weaponsArray[1].power;
-            this.current_player.pname = weaponsArray[1].name;
-            weaponsArray[1].beenEquipped = true;
-            this.pickNdrop(old_power, weaponsArray[1].name);
-        } else if (this.current_player.x == weaponsArray[2].x && this.current_player.y == weaponsArray[2].y && !weaponsArray[2].beenEquipped) {
+            this.current_player.power = moon.power;
+            this.current_player.pname = moon.name;
+            moon.beenEquipped = true;
+            weaponsArray[1] = moon;
+            this.pickNdrop(old_power, moon.name);
+        } else if (this.current_player.x == sun.x && this.current_player.y == sun.y && !sun.beenEquipped) {
             let old_power = this.current_player.pname;
-            this.current_player.power = weaponsArray[2].power;
-            this.current_player.pname = weaponsArray[2].name;
-            weaponsArray[2].beenEquipped = true;
-            this.pickNdrop(old_power, weaponsArray[2].name);
-        } else if (this.current_player.x == weaponsArray[3].x && this.current_player.y == weaponsArray[3].y && !weaponsArray[3].beenEquipped) {
+            this.current_player.power = sun.power;
+            this.current_player.pname = sun.name;
+            sun.beenEquipped = true;
+            weaponsArray[2] = sun; 
+            this.pickNdrop(old_power, sun.name);
+        } else if (this.current_player.x == wind.x && this.current_player.y == wind.y && !wind.beenEquipped) {
             let old_power = this.current_player.pname;
-            this.current_player.power = weaponsArray[3].power;
-            this.current_player.pname = weaponsArray[3].name;
-            weaponsArray[3].beenEquipped = true;
-            this.pickNdrop(old_power, weaponsArray[3].name);
+            this.current_player.power = wind.power;
+            this.current_player.pname = wind.name;
+            wind.beenEquipped = true;
+            weaponsArray[3] = wind;
+            this.pickNdrop(old_power, wind.name);
         }
 
         this.show_status();
@@ -407,8 +418,8 @@ class Game {
             console.log("index of old weapon", old_index)
             weaponsArray[old_index].beenEquipped = false;
 
-            weaponsArray[old_index].x = current_player.x;
-            weaponsArray[old_index].y = current_player.y;
+            weaponsArray[old_index].x = this.current_player.x;
+            weaponsArray[old_index].y = this.current_player.y;
 
             this.blocks[this.current_player.x * 10 + this.current_player.y].classList.remove(new_power);
             this.blocks[this.current_player.x * 10 + this.current_player.y].classList.add(old_power);
@@ -422,7 +433,7 @@ class Game {
     check_fight() {
         let range = -1;
         let other_player;
-        (this.toggler % 2 == 0) ? other_player = usersArray[1]: other_player = usersArray[0];
+        (this.toggler % 2 == 0) ? other_player = P2: other_player = P1;
         let current_location = this.current_player.x * 10 + this.current_player.y;
         let temp_location = current_location;
         let inactive_location = other_player.x * 10 + other_player.y;
@@ -453,26 +464,26 @@ class Game {
 
     //check defend/attack status and deduct health points from each player 
     commence_round() {
-        if (usersArray[0].isAttacking && usersArray[1].isAttacking) {
-            console.log(usersArray[0].username, "Attacking");
-            console.log(usersArray[1].username, "Attacking");
-            usersArray[0].health - usersArray[1].power <= 0 ? usersArray[0].health = 0 : usersArray[0].health -= usersArray[1].power;
-            usersArray[1].health - usersArray[0].power <= 0 ? usersArray[1].health = 0 : usersArray[1].health -= usersArray[0].power;
+        if (P1.isAttacking && P2.isAttacking) {
+            console.log(P1.username, "Attacking");
+            console.log(P2.username, "Attacking");
+            P1.health - P2.power <= 0 ? P1.health = 0 : P1.health -= P2.power;
+            P2.health - P1.power <= 0 ? P2.health = 0 : P2.health -= P1.power;
         }
-        if (usersArray[0].isAttacking && !usersArray[1].isAttacking) {
-            console.log(usersArray[0].username, "Attacking");
-            console.log(usersArray[1].username, "Defending");
-            usersArray[1].health - parseInt(usersArray[0].power / 2) <= 0 ? usersArray[1].health = 0 : usersArray[1].health -= parseInt(usersArray[0].power / 2);
+        if (P1.isAttacking && !P2.isAttacking) {
+            console.log(P1.username, "Attacking");
+            console.log(P2.username, "Defending");
+            P2.health - parseInt(P1.power / 2) <= 0 ? P2.health = 0 : P2.health -= parseInt(P1.power / 2);
 
         }
-        if (!usersArray[0].isAttacking && usersArray[1].isAttacking) {
-            console.log(usersArray[0].username, "Defending");
-            console.log(usersArray[1].username, "Attacking");
-            usersArray[0].health - parseInt(usersArray[1].power / 2) <= 0 ? usersArray[0].health = 0 : usersArray[0].health -= parseInt(usersArray[1].power / 2);
+        if (!P1.isAttacking && P2.isAttacking) {
+            console.log(P1.username, "Defending");
+            console.log(P2.username, "Attacking");
+            P1.health - parseInt(P2.power / 2) <= 0 ? P1.health = 0 : P1.health -= parseInt(P2.power / 2);
         }
-        if (!usersArray[0].isAttacking && !usersArray[1].isAttacking) {
-            console.log(usersArray[0].username, "Defending");
-            console.log(usersArray[1].username, "Defending");
+        if (!P1.isAttacking && !P2.isAttacking) {
+            console.log(P1.username, "Defending");
+            console.log(P2.username, "Defending");
         }
         this.show_status();
         this.show_legal_moves();
@@ -481,21 +492,21 @@ class Game {
 
     //checkif any player has his health zero
     check_victory() {
-        if (usersArray[0].health <= 0) {
-            console.log(usersArray[1].username, "WON!!");
-            console.log(usersArray[0].username, "LOST!")
+        if (P1.health <= 0) {
+            console.log(P2.username, "WON!!");
+            console.log(P1.username, "LOST!")
             $('#success').append(
                 `<div id="alert" class="alert alert-success" role="alert">
-            ${usersArray[1].username} WON!!! New Game Starts in 5s
+            ${P2.username} WON!!! New Game Starts in 5s
             </div>`
             );
             setTimeout(function() { Game.restart(); }, 5000);
-        } else if (usersArray[1].health <= 0) {
-            console.log(usersArray[0].username, "WON!!");
-            console.log(usersArray[1].username, "LOST!")
+        } else if (P2.health <= 0) {
+            console.log(P1.username, "WON!!");
+            console.log(P2.username, "LOST!")
             $('#success').append(
                 `<div id="alert"  class="text-center mx-auto align-content-justify alert alert-success" role="alert">
-            ${usersArray[0].username} WON!!! New Game Starts in 5s
+            ${P1.username} WON!!! New Game Starts in 5s
             </div>`
             );
             setTimeout(function() { Game.restart(); }, 5000);
@@ -532,7 +543,7 @@ $('.grid-item').click(function() {
 })
 
 $('#start').one("click", function() {
-    game.check_legal_moves(usersArray[0].x, usersArray[0].y);
+    game.check_legal_moves(P1.x, P1.y);
     $('#stop').show();
     $('#start').hide();
 
@@ -543,8 +554,8 @@ $('#stop').one("click", function() {
 })
 
 $('#p1f').click(function() {
-    usersArray[0].isAttacking = true;
-    console.log(usersArray[0].username + " is attacking ? ", usersArray[0].isAttacking);
+    P1.isAttacking = true;
+    console.log(P1.username + " is attacking ? ", P1.isAttacking);
     game.toggle_player();
     game.remove_legal_moves();
     game.indicate_battle();
@@ -554,8 +565,8 @@ $('#p1f').click(function() {
 })
 
 $('#p1d').click(function() {
-    usersArray[0].isAttacking = false;
-    console.log(usersArray[0].username + " is attacking ? ", usersArray[0].isAttacking);
+    P1.isAttacking = false;
+    console.log(P1.username + " is attacking ? ", P1.isAttacking);
     game.toggle_player();
     game.remove_legal_moves();
     game.indicate_battle();
@@ -566,8 +577,8 @@ $('#p1d').click(function() {
 })
 
 $('#p2f').click(function() {
-    usersArray[1].isAttacking = true;
-    console.log(usersArray[1].username + " is attacking ? ", usersArray[1].isAttacking);
+    P2.isAttacking = true;
+    console.log(P2.username + " is attacking ? ", P2.isAttacking);
     game.toggle_player();
     game.remove_legal_moves();
     game.indicate_battle();
@@ -578,8 +589,8 @@ $('#p2f').click(function() {
 })
 
 $('#p2d').click(function() {
-    usersArray[1].isAttacking = false;
-    console.log(usersArray[1].username + " is attacking ? ", usersArray[1].isAttacking);
+    P2.isAttacking = false;
+    console.log(P2.username + " is attacking ? ", P2.isAttacking);
     game.toggle_player();
     game.remove_legal_moves();
     game.indicate_battle();
@@ -597,9 +608,9 @@ function getData() {
     console.log(p1, p2)
 
     if (p1.length)
-        usersArray[0].username = p1;
+        P1.username = p1;
     if (p2.length)
-        usersArray[1].username = p2;
+        P2.username = p2;
     game.show_status();
 }
 
